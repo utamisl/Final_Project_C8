@@ -1,5 +1,9 @@
 from django.urls import path
 from . import views
+from django.views import login_view
+from django.urls import path
+from django.urls import include, path
+from .views import logout_view
 
 app_name = 'toko'
 
@@ -13,4 +17,7 @@ urlpatterns = [
      path('payment/<payment_method>', views.PaymentView.as_view(), name='payment'),
      path('paypal-return/', views.paypal_return, name='paypal-return'),
      path('paypal-cancel/', views.paypal_cancel, name='paypal-cancel'),
+     path('login/', views.login_view, name='login'),
+     path('toko/', include('toko.urls')),
+     path('logout/', logout_view, name='logout'),
 ]
