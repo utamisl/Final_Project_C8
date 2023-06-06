@@ -6,20 +6,10 @@ from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.utils import timezone
 from django.views import generic
 from paypal.standard.forms import PayPalPaymentsForm
+
+
 from .forms import CheckoutForm
 from .models import ProdukItem, OrderProdukItem, Order, AlamatPengiriman, Payment
-from django.shortcuts import render
-from django.db import connection 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.db import connection
-from django.views.decorators.csrf import csrf_protect
-from ratelimit.decorators import ratelimitkey
-from django.contrib.auth import logout
-from django.shortcuts import redirect
-from django.urls import reverse
-from django.views.decorators.http import require_POST
-
 
 class HomeListView(generic.ListView):
     template_name = 'home.html'
@@ -238,42 +228,3 @@ def produkItem_list(request):
     }
 
     return render(request, 'home.html', context)
-
-
-# LoginForm
-@csrf_protect
-@ratelimitkey(key='user', rate='5/m')  # Maksimal login 5 kali per menit per user
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        # Menggunakan fungsi Django's built-in authenticate(), untuk menangani SQL query dan mencegah SQL injection
-        user = authenticate(request, username=username, password=password)
-        
-        if user is not None:
-            # Memanggil fungsi Django's login() untuk memproses login
-            login(request, user)
-            return redirect('home')  # Mengembalikan ke halaman Home setelah berhasil login
-        else:
-            # Jika login tidak valid
-            return render(request, 'login.html', {'error': 'Invalid username or password'})
-    else:
-        return render(request, 'login.html')
-    
-# LogoutForm
-@csrf_protect
-@require_POST
-def logout_view(request):
-    if request.method == 'POST':
-        logout(request)
-        return redirect('/accounts/login')
-    
-#contact
-def contact_view(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
-
-    return render(request, 'contact.html')
