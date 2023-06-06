@@ -1,2 +1,2 @@
 {% load i18n %}
-{% blocktrans %}Email utama disimpan.{% endblocktrans %}
+{% blocktrans %}Alamat email utama disimpan.{% endblocktrans %}
