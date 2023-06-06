@@ -18,7 +18,7 @@ env = environ.Env()
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path('_file_').resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
 
     'paypal.standard.ipn',
+    'ratelimit',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -110,9 +111,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'ecomm',
-        'USER': 'postgres',
-        'PASSWORD': 'Servis24jam',
-        'HOST': 'localhost',
+        'USER': 'nana.mulia12345',
+        'PASSWORD': 'fd5i9kNMSpce',
+        'HOST': 'ep-odd-union-417642.us-east-2.aws.neon.tech',
         'PORT': '5432',
     }
 }
@@ -193,21 +194,40 @@ if DEBUG is False:
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-    ALLOWED_HOSTS = ['www.domain-kita.com']
+    ALLOWED_HOSTS = ['ep-odd-union-417642.us-east-2.aws.neon.tech']
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'db_name',
-            'USER': 'db_user',
-            'PASSWORD': 'db_password',
-            'HOST': 'www.domain-kita.com',
-            'PORT': '5432',
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ecomm',
+        'USER': 'nana.mulia12345',
+        'PASSWORD': 'fd5i9kNMSpce',
+        'HOST': 'ep-odd-union-417642.us-east-2.aws.neon.tech',
+        'PORT': '5432',
+    }
     }
 
     PAYPAL_CLIENT_ID = env('PAYPAL_LIVE_CLIENT_ID')
     PAYPAL_SECRET_ID = env('PAYPAL_LIVE_SECRET_ID')
     PAYPAL_TEST=False
     PAYPAL_RECEIVER_EMAIL = env('PAYPAL_RECEIVER_EMAIL')
+
+    # Django Rate Limit
+    RATELIMIT_ENABLE = True
+
+    # Konfigurasi Rate Limit
+    RATELIMIT_USE_CACHE = 'default'
+    RATELIMIT_CACHE_PREFIX = 'rl:'
+    RATELIMIT_ANONYMOUS_ONLY = False
+    RATELIMIT_ANONYMOUS_KEY = 'anonymous'
+    RATELIMIT_BLOCKED_URL = '/rate-limited/'
+
+    # Aturan Rate Limit
+    RATELIMIT_VIEW_METHODS = ['POST']  
+    RATELIMIT_ANONYMOUS_RATE = '100/hour'  
+    RATELIMIT_USER_KEY = 'user' 
+    RATELIMIT_USER_RATE = '200/hour' 
+
+    # Logout
+    LOGOUT_REDIRECT_URL = 'home' 
